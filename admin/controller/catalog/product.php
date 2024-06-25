@@ -3,6 +3,10 @@ class ControllerCatalogProduct extends Controller {
 	private $error = array();
 
 	public function index() {
+        // Product Shipping
+        $this->load->model('vltech/custom');
+        $this->model_vltech_custom->setupProductShipping();
+
 		$this->load->language('catalog/product');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -1014,6 +1018,28 @@ class ControllerCatalogProduct extends Controller {
 				'date_end'          => ($product_discount['date_end'] != '0000-00-00') ? $product_discount['date_end'] : ''
 			);
 		}
+
+        // Product Shipping
+        if (isset($this->request->post['product_shipping'])) {
+            $product_shippings = $this->request->post['product_shipping'];
+        } elseif (isset($this->request->get['product_id'])) {
+            $product_shippings = $this->model_catalog_product->getProductShipping($this->request->get['product_id']);
+        } else {
+            $product_shippings = array();
+        }
+
+        $data['product_shippings'] = array();
+        foreach ($product_shippings as $product_shipping) {
+            $data['product_shippings'][] = array(
+                'title' => $product_shipping['title'],
+                'cost' => $product_shipping['cost'],
+                'free_amount' => $product_shipping['free_amount'],
+                'tax_class_id' => $product_shipping['tax_class_id'],
+                'geo_zone_id' => $product_shipping['geo_zone_id'],
+                'sort_order' => $product_shipping['sort_order'],
+                'status' => $product_shipping['status']
+            );
+        }
 
 		if (isset($this->request->post['product_special'])) {
 			$product_specials = $this->request->post['product_special'];

@@ -64,6 +64,23 @@ class ModelCatalogProduct extends Model {
 			}
 		}
 
+        // Product Shipping
+        if (isset($data['product_shipping'])) {
+            foreach ($data['product_shipping'] as $product_shipping) {
+                $this->db->query(
+                    "INSERT INTO " . DB_PREFIX . "product_special SET 
+                        product_id = '" . (int) $product_id . "',
+                        title = '" . $this->db->escape($product_shipping['title']) . "',
+                        cost = '" . (float) $product_shipping['cost'] . "',
+                        free_amount = '" . (float) $product_shipping['free_amount'] . "',
+                        tax_class_id = '" . (int) $product_shipping['tax_class_id'] . "',
+                        geo_zone_id = '" . (int) $product_shipping['geo_zone_id'] . "',
+                        sort_order = '" . (int) $product_shipping['sort_order'] . "',
+                        status = '" . (int) $product_shipping['status'] . "'"
+                );
+            }
+        }
+
 		if (isset($data['product_special'])) {
 			foreach ($data['product_special'] as $product_special) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', price = '" . (float)$product_special['price'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
@@ -206,6 +223,24 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', price = '" . (float)$product_discount['price'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
 			}
 		}
+
+        // Product Shipping
+        $this->db->query("DELETE FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int) $product_id . "'");
+        if (isset($data['product_shipping'])) {
+            foreach ($data['product_shipping'] as $product_shipping) {
+                $this->db->query(
+                    "INSERT INTO " . DB_PREFIX . "product_special SET 
+                        product_id = '" . (int) $product_id . "',
+                        title = '" . $this->db->escape($product_shipping['title']) . "',
+                        cost = '" . (float) $product_shipping['cost'] . "',
+                        free_amount = '" . (float) $product_shipping['free_amount'] . "',
+                        tax_class_id = '" . (int) $product_shipping['tax_class_id'] . "',
+                        geo_zone_id = '" . (int) $product_shipping['geo_zone_id'] . "',
+                        sort_order = '" . (int) $product_shipping['sort_order'] . "',
+                        status = '" . (int) $product_shipping['status'] . "'"
+                );
+            }
+        }
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "'");
 
@@ -546,6 +581,13 @@ class ModelCatalogProduct extends Model {
 
 		return $query->rows;
 	}
+
+    // Product Shipping
+    public function getProductShipping($product_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order");
+
+        return $query->rows;
+    }
 
 	public function getProductSpecials($product_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' ORDER BY priority, price");

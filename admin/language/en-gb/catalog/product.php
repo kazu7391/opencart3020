@@ -108,3 +108,11 @@ $_['error_meta_title']       = 'Meta Title must be greater than 1 and less than 
 $_['error_model']            = 'Product Model must be greater than 1 and less than 64 characters!';
 $_['error_keyword']          = 'SEO URL already in use!';
 $_['error_unique']           = 'SEO URL must be unique!';
+
+// Product Shipping
+$_['tab_product_shipping']   = 'Product Shipping';
+$_['entry_title']            = 'Title';
+$_['entry_cost']             = 'Cost';
+$_['entry_free_amount']      = 'Amount for Free';
+$_['entry_geo_zone']         = 'Geo Zone';
+$_['button_shipping_add']         = 'Add Shipping';
