@@ -1,0 +1,219 @@
+2024-06-23 14:20:55 - MOD: Modification Default
+
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 69
+
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 77
+LINE: 151
+LINE: 168
+
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 59
+
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 67
+LINE: 73
+
+FILE: system/library/template/template.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+
+FILE: system/library/template/twig.php
+CODE: $loader = new \Twig_Loader_Filesystem(DIR_TEMPLATE);
+LINE: 19
+----------------------------------------------------------------
+MOD: VLTech Product Shipping
+
+FILE: admin/controller/catalog/product.php
+CODE: public function index() {
+LINE: 8
+CODE: if (isset($this->request->post['shipping'])) {
+LINE: 698
+
+FILE: admin/language/en-gb/catalog/product.php
+CODE: $_['entry_price']
+LINE: 53
+
+FILE: admin/model/catalog/product.php
+CODE: price = '" . (float)$data['price'] . "',
+LINE: 3
+LINE: 137
+
+FILE: admin/view/template/catalog/product_form.twig
+CODE: <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+LINE: 152
+----------------------------------------------------------------
+2024-06-23 15:03:40 - MOD: Modification Default
+
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 69
+
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 77
+LINE: 151
+LINE: 168
+
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 59
+
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 67
+LINE: 73
+
+FILE: system/library/template/template.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+
+FILE: system/library/template/twig.php
+CODE: $loader = new \Twig_Loader_Filesystem(DIR_TEMPLATE);
+LINE: 19
+----------------------------------------------------------------
+2024-06-23 15:03:49 - MOD: Modification Default
+
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 69
+
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 77
+LINE: 151
+LINE: 168
+
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 59
+
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 67
+LINE: 73
+
+FILE: system/library/template/template.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+
+FILE: system/library/template/twig.php
+CODE: $loader = new \Twig_Loader_Filesystem(DIR_TEMPLATE);
+LINE: 19
+----------------------------------------------------------------
+MOD: VLTech Product Shipping
+
+FILE: admin/controller/catalog/product.php
+CODE: public function index() {
+LINE: 8
+CODE: if (isset($this->request->post['shipping'])) {
+LINE: 698
+
+FILE: admin/language/en-gb/catalog/product.php
+CODE: $_['entry_price']
+LINE: 53
+
+FILE: admin/model/catalog/product.php
+CODE: price = '" . (float)$data['price'] . "',
+LINE: 3
+LINE: 137
+
+FILE: admin/view/template/catalog/product_form.twig
+CODE: <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+LINE: 152
+
+FILE: catalog/model/catalog/product.php
+CODE: $query->row['special'],
+LINE: 35
+
+FILE: catalog/controller/product/product.php
+CODE: if ((float)$product_info['special']) {
+LINE: 290
+
+FILE: catalog/language/en-gb/product/product.php
+CODE: $_['text_stock']
+LINE: 11
+----------------------------------------------------------------
+2024-06-23 15:29:22 - MOD: Modification Default
+
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 69
+
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 77
+LINE: 151
+LINE: 168
+
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 59
+
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 67
+LINE: 73
+
+FILE: system/library/template/template.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+
+FILE: system/library/template/twig.php
+CODE: $loader = new \Twig_Loader_Filesystem(DIR_TEMPLATE);
+LINE: 19
+----------------------------------------------------------------
+MOD: VLTech Product Shipping
+
+FILE: admin/controller/catalog/product.php
+CODE: public function index() {
+LINE: 8
+CODE: if (isset($this->request->post['shipping'])) {
+LINE: 698
+
+FILE: admin/language/en-gb/catalog/product.php
+CODE: $_['entry_price']
+LINE: 53
+
+FILE: admin/model/catalog/product.php
+CODE: price = '" . (float)$data['price'] . "',
+LINE: 3
+LINE: 137
+
+FILE: admin/view/template/catalog/product_form.twig
+CODE: <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+LINE: 152
+
+FILE: catalog/model/catalog/product.php
+CODE: $query->row['special'],
+LINE: 35
+
+FILE: catalog/controller/product/product.php
+CODE: if ((float)$product_info['special']) {
+LINE: 290
+
+FILE: catalog/language/en-gb/product/product.php
+CODE: $_['text_stock']
+LINE: 11
+
+FILE: catalog/controller/checkout/cart.php
+CODE: $price = $this->currency->format($unit_price, $this->session->data['currency']);
+LINE: 106
+CODE: $price = false;
+LINE: 112
+CODE: => $price,
+LINE: 151
+
+FILE: system/library/cart/cart.php
+CODE: ($price + $option_price),
+LINE: 253
+
+FILE: catalog/language/en-gb/checkout/cart.php
+CODE: $_['text_recurring']
+LINE: 22
+----------------------------------------------------------------
