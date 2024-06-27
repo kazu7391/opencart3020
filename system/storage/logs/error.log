@@ -1,2 +1,11 @@
 2024-06-23 14:23:31 - PHP Notice:  Undefined index: shipping_fee in E:\OSPanel\domains\localhost\oc_demo\catalog\controller\product\product.php on line 279
 2024-06-23 14:24:20 - PHP Notice:  Undefined index: shipping_fee in E:\OSPanel\domains\localhost\oc_demo\catalog\controller\product\product.php on line 279
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: geo_zone_id in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 238
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: title in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 234
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: cost in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 235
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: free_amount in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 236
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: tax_class_id in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 237
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: sort_order in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 239
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: status in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 240
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: geo_zone_id in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 238
+2024-06-27 1:29:02 - PHP Notice:  Undefined index: geo_zone_id in D:\Work\OSPanel\domains\localhost\oc_demo\admin\model\catalog\product.php on line 238

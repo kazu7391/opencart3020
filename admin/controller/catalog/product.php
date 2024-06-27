@@ -1020,6 +1020,9 @@ class ControllerCatalogProduct extends Controller {
 		}
 
         // Product Shipping
+        $this->load->model('localisation/geo_zone');
+        $data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
+
         if (isset($this->request->post['product_shipping'])) {
             $product_shippings = $this->request->post['product_shipping'];
         } elseif (isset($this->request->get['product_id'])) {

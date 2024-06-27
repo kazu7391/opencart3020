@@ -916,8 +916,8 @@
                       <td class="text-right">{{ entry_free_amount }}</td>
                       <td class="text-center">{{ entry_tax_class }}</td>
                       <td class="text-center">{{ entry_geo_zone }}</td>
-                      <td class="text-right">{{ entry_sort_order }}</td>
-                      <td class="text-right">{{ entry_status }}</td>
+                      <td class="text-center">{{ entry_sort_order }}</td>
+                      <td class="text-center">{{ entry_status }}</td>
                       <td></td>
                     </tr>
                   </thead>
@@ -947,7 +947,32 @@
                           {% endfor %}
                         </select>
                       </td>
-                      <!-- Geo Zone, Sort, Status -->
+                      <td class="text-left">
+                        <select name="product_shipping[{{ shipping_row }}][geo_zone_id]" class="form-control">
+                          <option value="0">{{ text_none }}</option>
+                          {% for geo_zone in geo_zones %}
+                            {% if geo_zone.geo_zone_id == product_shipping.geo_zone_id %}
+                              <option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+                            {% else %}
+                              <option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td class="text-center">
+                        <input type="text" name="product_shipping[{{ shipping_row }}][sort_order]" value="{{ product_shipping.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control"/>
+                      </td>
+                      <td class="text-center">
+                        <select name="product_shipping[{{ shipping_row }}][status]" class="form-control">
+                          {% if product_shipping.status %}
+                            <option value="1" selected="selected">{{ text_enabled }}</option>
+                            <option value="0">{{ text_disabled }}</option>
+                          {% else %}
+                            <option value="1">{{ text_enabled }}</option>
+                            <option value="0" selected="selected">{{ text_disabled }}</option>
+                          {% endif %}
+                        </select>
+                      </td>
                       <td class="text-left"><button type="button" onclick="$('#shipping-row{{ shipping_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
                     </tr>
                     {% set shipping_row = shipping_row + 1 %}
@@ -955,10 +980,10 @@
                   </tbody>
 
                   <tfoot>
-                  <tr>
-                    <td colspan="7"></td>
-                    <td class="text-left"><button type="button" onclick="addShipping();" data-toggle="tooltip" title="{{ button_shipping_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
-                  </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                      <td class="text-left"><button type="button" onclick="addShipping();" data-toggle="tooltip" title="{{ button_shipping_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -1594,11 +1619,34 @@
 
 <!-- // Product Shipping -->
 <script type="text/javascript"><!--
-var shipping_row = {{ shipping_row }};
+  var shipping_row = {{ shipping_row }};
 
-function addShipping() {
-    console.log(shipping_row);
-}
+  function addShipping() {
+    html = '<tr id="shipping-row' + shipping_row + '">';
+    html += '<td class="text-left"><input type="text" name="product_shipping[' + shipping_row + '][title]" value="" placeholder="{{ entry_title }}" class="form-control" /></td>';
+    html += '<td class="text-right"><input type="text" name="product_shipping[' + shipping_row + '][cost]" value="" placeholder="{{ entry_cost }}" class="form-control"/></td>';
+    html += '<td class="text-right"><input type="text" name="product_shipping[' + shipping_row + '][free_amount]" value="" placeholder="{{ entry_free_amount }}" class="form-control"/></td>';
+    html += '<td class="text-left"><select name="product_shipping[' + shipping_row + '][tax_class_id]" class="form-control">'
+    html += '<option value="0">{{ text_none }}</option>';
+    {% for tax_class in tax_classes %}
+    html += '<option value="{{ tax_class.tax_class_id }}">{{ tax_class.title }}</option>'
+    {% endfor %}
+    html += '</select></td>';
+    html += '<td class="text-left"><select name="product_shipping[' + shipping_row + '][geo_zone_id]" class="form-control">';
+    html += '<option value="0">{{ text_none }}</option>';
+    {% for geo_zone in geo_zones %}
+    html += '<option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>';
+    {% endfor %}
+    html += '</select></td>';
+    html += '<td class="text-center"><input type="text" name="product_shipping[' + shipping_row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control"/></td>'
+    html += '<td class="text-center"><select name="product_shipping[' + shipping_row + '][status]" class="form-control">';
+    html += '<option value="1">{{ text_enabled }}</option><option value="0">{{ text_disabled }}</option></select></td>';
+    html += '<td class="text-left"><button type="button" onclick="$(\'#shipping-row' + shipping_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td></tr>';
+
+    $('#product-shipping tbody').append(html);
+
+    shipping_row++;
+  }
 //--></script>
 
   <script type="text/javascript"><!--

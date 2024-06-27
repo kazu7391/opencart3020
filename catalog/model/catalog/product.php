@@ -56,6 +56,31 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
+    // Product Shipping
+    public function getProductShipping($product_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int)$product_id . "' AND status = '1' ORDER BY sort_order");
+
+        return $query->rows;
+    }
+
+    public function getProductShippingData($product_shipping_cost_id) {
+        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_shipping_cost_id = '" . (int)$product_shipping_cost_id . "' AND status = '1'");
+
+        if ($query->num_rows) {
+            return array(
+                'product_shipping_cost_id' => $query->row['product_shipping_cost_id'],
+                'product_id'    => $query->row['product_id'],
+                'title'         => $query->row['title'],
+                'cost'          => $query->row['cost'],
+                'free_amount'   => $query->row['free_amount'],
+                'tax_class_id'  => $query->row['tax_class_id'],
+                'geo_zone_id'   => $query->row['geo_zone_id']
+            );
+        } else {
+            return false;
+        }
+    }
+
 	public function getProducts($data = array()) {
 		$sql = "SELECT p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
 

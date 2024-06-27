@@ -1,14 +1,10 @@
-/system/storage/cache/
 .htaccess
-/config.php
+config.php
 admin/config.php
 
 !index.html
 
-download/
-image/data/
-image/cache/
-system/cache/
-system/logs/
-
-system/storage/
+/image/cache/
+/system/storage/cache/
+/system/storage/logs/
+/system/storage/

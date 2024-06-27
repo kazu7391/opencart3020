@@ -68,7 +68,7 @@ class ModelCatalogProduct extends Model {
         if (isset($data['product_shipping'])) {
             foreach ($data['product_shipping'] as $product_shipping) {
                 $this->db->query(
-                    "INSERT INTO " . DB_PREFIX . "product_special SET 
+                    "INSERT INTO " . DB_PREFIX . "vl_product_shipping SET 
                         product_id = '" . (int) $product_id . "',
                         title = '" . $this->db->escape($product_shipping['title']) . "',
                         cost = '" . (float) $product_shipping['cost'] . "',
@@ -229,7 +229,7 @@ class ModelCatalogProduct extends Model {
         if (isset($data['product_shipping'])) {
             foreach ($data['product_shipping'] as $product_shipping) {
                 $this->db->query(
-                    "INSERT INTO " . DB_PREFIX . "product_special SET 
+                    "INSERT INTO " . DB_PREFIX . "vl_product_shipping SET 
                         product_id = '" . (int) $product_id . "',
                         title = '" . $this->db->escape($product_shipping['title']) . "',
                         cost = '" . (float) $product_shipping['cost'] . "',

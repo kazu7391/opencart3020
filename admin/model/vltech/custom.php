@@ -15,5 +15,7 @@ class ModelVltechCustom extends Model
                 `status` tinyint(1) NOT NULL DEFAULT '0',
             PRIMARY KEY (`product_shipping_cost_id`)
         ) DEFAULT COLLATE=utf8_general_ci;");
+
+
     }
 }
