@@ -282,7 +282,7 @@
 		          <select name="shipping" id="input-shipping" class="form-control">
 			          <option value="0">{{ text_none }}</option>
 			          {% for product_shipping in product_shippings %}
-				          <option value="{{ product_shipping.product_shipping_cost_id }}">{{ product_shipping.title }}</option>
+				          <option value="{{ product_shipping.product_shipping_id }}">{{ product_shipping.title }}</option>
 			          {% endfor %}
 		          </select>
 	          </div>

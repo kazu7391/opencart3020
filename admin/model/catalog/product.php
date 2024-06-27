@@ -68,7 +68,7 @@ class ModelCatalogProduct extends Model {
         if (isset($data['product_shipping'])) {
             foreach ($data['product_shipping'] as $product_shipping) {
                 $this->db->query(
-                    "INSERT INTO " . DB_PREFIX . "vl_product_shipping SET 
+                    "INSERT INTO " . DB_PREFIX . "product_shipping SET 
                         product_id = '" . (int) $product_id . "',
                         title = '" . $this->db->escape($product_shipping['title']) . "',
                         cost = '" . (float) $product_shipping['cost'] . "',
@@ -225,11 +225,11 @@ class ModelCatalogProduct extends Model {
 		}
 
         // Product Shipping
-        $this->db->query("DELETE FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int) $product_id . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_shipping WHERE product_id = '" . (int) $product_id . "'");
         if (isset($data['product_shipping'])) {
             foreach ($data['product_shipping'] as $product_shipping) {
                 $this->db->query(
-                    "INSERT INTO " . DB_PREFIX . "vl_product_shipping SET 
+                    "INSERT INTO " . DB_PREFIX . "product_shipping SET 
                         product_id = '" . (int) $product_id . "',
                         title = '" . $this->db->escape($product_shipping['title']) . "',
                         cost = '" . (float) $product_shipping['cost'] . "',
@@ -584,7 +584,7 @@ class ModelCatalogProduct extends Model {
 
     // Product Shipping
     public function getProductShipping($product_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_shipping WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order");
 
         return $query->rows;
     }

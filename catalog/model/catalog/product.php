@@ -58,17 +58,17 @@ class ModelCatalogProduct extends Model {
 
     // Product Shipping
     public function getProductShipping($product_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_id = '" . (int)$product_id . "' AND status = '1' ORDER BY sort_order");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_shipping WHERE product_id = '" . (int)$product_id . "' AND status = '1' ORDER BY sort_order");
 
         return $query->rows;
     }
 
-    public function getProductShippingData($product_shipping_cost_id) {
-        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "vl_product_shipping WHERE product_shipping_cost_id = '" . (int)$product_shipping_cost_id . "' AND status = '1'");
+    public function getProductShippingData($product_shipping_id) {
+        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product_shipping WHERE product_shipping_id = '" . (int)$product_shipping_id . "' AND status = '1'");
 
         if ($query->num_rows) {
             return array(
-                'product_shipping_cost_id' => $query->row['product_shipping_cost_id'],
+                'product_shipping_id' => $query->row['product_shipping_id'],
                 'product_id'    => $query->row['product_id'],
                 'title'         => $query->row['title'],
                 'cost'          => $query->row['cost'],

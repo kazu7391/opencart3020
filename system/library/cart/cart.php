@@ -238,6 +238,8 @@ class Cart {
 				$product_data[] = array(
 					'cart_id'         => $cart['cart_id'],
 					'product_id'      => $product_query->row['product_id'],
+                    // Product Shipping
+                    'product_shipping_id' => $cart['product_shipping_id'],
 					'name'            => $product_query->row['name'],
 					'model'           => $product_query->row['model'],
 					'shipping'        => $product_query->row['shipping'],
@@ -268,6 +270,17 @@ class Cart {
 
 		return $product_data;
 	}
+
+    // Product Shipping
+    public function addWithShip($product_id, $quantity = 1, $option = array(), $recurring_id = 0, $product_shipping_id = 0) {
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "cart WHERE api_id = '" . (isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0) . "' AND customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND recurring_id = '" . (int)$recurring_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+
+        if (!$query->row['total']) {
+            $this->db->query("INSERT " . DB_PREFIX . "cart SET api_id = '" . (isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0) . "', customer_id = '" . (int)$this->customer->getId() . "', session_id = '" . $this->db->escape($this->session->getId()) . "', product_id = '" . (int)$product_id . "', recurring_id = '" . (int)$recurring_id . "', product_shipping_id = '" . (int)$product_shipping_id . "', `option` = '" . $this->db->escape(json_encode($option)) . "', quantity = '" . (int)$quantity . "', date_added = NOW()");
+        } else {
+            $this->db->query("UPDATE " . DB_PREFIX . "cart SET quantity = (quantity + " . (int)$quantity . "), product_shipping_id = '" . (int)$product_shipping_id . "' WHERE api_id = '" . (isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0) . "' AND customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND recurring_id = '" . (int)$recurring_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+        }
+    }
 
 	public function add($product_id, $quantity = 1, $option = array(), $recurring_id = 0) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "cart WHERE api_id = '" . (isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0) . "' AND customer_id = '" . (int)$this->customer->getId() . "' AND session_id = '" . $this->db->escape($this->session->getId()) . "' AND product_id = '" . (int)$product_id . "' AND recurring_id = '" . (int)$recurring_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");

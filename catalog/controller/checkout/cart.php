@@ -318,7 +318,11 @@ class ControllerCheckoutCart extends Controller {
 			if (!$json) {
                 // Product Shipping
 //                $this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
-				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id, $this->request->post['shipping']);
+                if(isset($this->request->post['shipping'])) {
+				    $this->cart->addWithShip($this->request->post['product_id'], $quantity, $option, $recurring_id, $this->request->post['shipping']);
+                } else {
+                    $this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
+                }
 
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
 
