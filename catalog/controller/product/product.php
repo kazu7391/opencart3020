@@ -438,7 +438,9 @@ class ControllerProductProduct extends Controller {
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
             // Product Shipping
-            $data['product_shippings'] = $this->model_catalog_product->getProductShipping($this->request->get['product_id']);
+            if($this->model_catalog_product->checkProductShippingExisted()) {
+                $data['product_shippings'] = $this->model_catalog_product->getProductShipping($this->request->get['product_id']);
+            }
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
 			

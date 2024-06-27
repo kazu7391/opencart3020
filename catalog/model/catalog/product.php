@@ -57,6 +57,14 @@ class ModelCatalogProduct extends Model {
 	}
 
     // Product Shipping
+    public function checkProductShippingExisted() {
+        $query = $this->db->query("SHOW TABLES LIKE '" . DB_PREFIX . "product_shipping'");
+
+        if(empty($query->rows)) {
+            return false;
+        } else return true;
+    }
+
     public function getProductShipping($product_id) {
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_shipping WHERE product_id = '" . (int)$product_id . "' AND status = '1' ORDER BY sort_order");
 
@@ -71,10 +79,10 @@ class ModelCatalogProduct extends Model {
                 'product_shipping_id' => $query->row['product_shipping_id'],
                 'product_id'    => $query->row['product_id'],
                 'title'         => $query->row['title'],
-                'cost'          => $query->row['cost'],
-                'free_amount'   => $query->row['free_amount'],
-                'tax_class_id'  => $query->row['tax_class_id'],
-                'geo_zone_id'   => $query->row['geo_zone_id']
+                'cost'          => (float) $query->row['cost'],
+                'free_amount'   => (float) $query->row['free_amount'],
+                'tax_class_id'  => (int) $query->row['tax_class_id'],
+                'geo_zone_id'   => (int) $query->row['geo_zone_id']
             );
         } else {
             return false;
