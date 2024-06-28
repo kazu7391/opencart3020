@@ -16,6 +16,11 @@
     <tr>
       <td class="text-left"><a href="{{ product.href }}">{{ product.name }}</a> {% for option in product.option %} <br />
         &nbsp;<small> - {{ option.name }}: {{ option.value }}</small> {% endfor %}
+        <!-- // Product Shipping -->
+        {% if product.product_shipping_total %}
+          <br />
+          <small><i class="fa fa-truck"></i> {{ text_shipping_fee }}: {{ product.product_shipping_total }}</small>
+        {% endif %}
         {% if product.recurring %} <br />
         <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product.recurring }}</small> {% endif %}</td>
       <td class="text-left">{{ product.model }}</td>

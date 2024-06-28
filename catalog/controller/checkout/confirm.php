@@ -371,6 +371,30 @@ class ControllerCheckoutConfirm extends Controller {
 					}
 				}
 
+                // Product Shipping
+                $this->load->model('catalog/product');
+                $product_shipping_data = $this->model_catalog_product->getProductShippingData($product['product_shipping_id']);
+                $product_shipping_total = 0;
+                $product_total = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'];
+                if($product_total < $product_shipping_data['free_amount']) {
+                    $query_geo_zone = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . $product_shipping_data['geo_zone_id'] . "'");
+                    if ($product_shipping_data['geo_zone_id'] == 0) {
+                        $status = true;
+                    } elseif ($query_geo_zone->num_rows) {
+                        $status = true;
+                    } else {
+                        $status = false;
+                    }
+
+                    if($status) {
+                        if($product_shipping_data['tax_class_id'] != 0) {
+                            $product_shipping_total = $this->tax->calculate($product_shipping_data['cost'], $product_shipping_data['tax_class_id']);
+                        } else {
+                            $product_shipping_total = $product_shipping_data['cost'];
+                        }
+                    }
+                }
+
 				$data['products'][] = array(
 					'cart_id'    => $product['cart_id'],
 					'product_id' => $product['product_id'],
@@ -380,6 +404,8 @@ class ControllerCheckoutConfirm extends Controller {
 					'recurring'  => $recurring,
 					'quantity'   => $product['quantity'],
 					'subtract'   => $product['subtract'],
+                    // Product Shipping
+                    'product_shipping_total' => $product_shipping_total > 0 ? $this->currency->format($product_shipping_total, $this->session->data['currency']) : '',
 					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
 					'total'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'], $this->session->data['currency']),
 					'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id'])

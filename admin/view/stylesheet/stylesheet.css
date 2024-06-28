@@ -670,8 +670,6 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 #extension-list span {
 	font-weight: 600;
 }
-
-}
 #marketplace-extension-info #banner img {
 	margin-left: auto;
 	margin-right: auto;

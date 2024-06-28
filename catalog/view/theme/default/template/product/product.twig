@@ -276,6 +276,7 @@
               <div class="help-block" id="recurring-description"></div>
             </div>
             {% endif %}
+	          <!-- // Product Shipping -->
 	          {% if product_shippings %}
 	          <div class="form-group">
 		          <label class="control-label" for="input-shipping">{{ entry_product_shipping }}</label>
@@ -286,8 +287,6 @@
 			          {% endfor %}
 		          </select>
 	          </div>
-	          {% else %}
-	          <input type="hidden" name="shipping" value="0" />
 	          {% endif %}
             <div class="form-group">
               <label class="control-label" for="input-quantity">{{ entry_qty }}</label>

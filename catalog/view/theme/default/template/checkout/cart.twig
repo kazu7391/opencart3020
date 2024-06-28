@@ -52,9 +52,10 @@
             <tr>
               <td class="text-center">{% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}</td>
               <td class="text-left"><a href="{{ product.href }}">{{ product.name }}</a> {% if not product.stock %} <span class="text-danger">***</span> {% endif %}
-                {% if product.shipping_fee %}
+                <!-- // Product Shipping -->
+                {% if product.product_shipping_total %}
                   <br />
-                  <small><i class="fa fa-truck"></i> {{ text_shipping_fee }}: {{ product.shipping_fee }}</small>
+                  <small><i class="fa fa-truck"></i> {{ text_shipping_fee }}: {{ product.product_shipping_total }}</small>
                 {% endif %}
                 {% if product.option %}
                 {% for option in product.option %} <br />

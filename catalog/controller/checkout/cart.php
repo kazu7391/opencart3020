@@ -130,6 +130,30 @@ class ControllerCheckoutCart extends Controller {
 					}
 				}
 
+                // Product Shipping
+                $this->load->model('catalog/product');
+                $product_shipping_data = $this->model_catalog_product->getProductShippingData($product['product_shipping_id']);
+                $product_shipping_total = 0;
+                $product_total = $unit_price * $product['quantity'];
+                if($product_total < $product_shipping_data['free_amount']) {
+                    $query_geo_zone = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . $product_shipping_data['geo_zone_id'] . "'");
+                    if ($product_shipping_data['geo_zone_id'] == 0) {
+                        $status = true;
+                    } elseif ($query_geo_zone->num_rows) {
+                        $status = true;
+                    } else {
+                        $status = false;
+                    }
+
+                    if($status) {
+                        if($product_shipping_data['tax_class_id'] != 0) {
+                            $product_shipping_total = $this->tax->calculate($product_shipping_data['cost'], $product_shipping_data['tax_class_id']);
+                        } else {
+                            $product_shipping_total = $product_shipping_data['cost'];
+                        }
+                    }
+                }
+
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
@@ -142,6 +166,8 @@ class ControllerCheckoutCart extends Controller {
 					'reward'    => ($product['reward'] ? sprintf($this->language->get('text_points'), $product['reward']) : ''),
 					'price'     => $price,
 					'total'     => $total,
+                    // Product Shipping
+                    'product_shipping_total' => $product_shipping_total > 0 ? $this->currency->format($product_shipping_total, $this->session->data['currency']) : '',
 					'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 				);
 			}
