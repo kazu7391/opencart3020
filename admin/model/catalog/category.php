@@ -1,5 +1,22 @@
 <?php
 class ModelCatalogCategory extends Model {
+    // Category Discount
+    public function setupCategoryDiscount() {
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "category_discount`;");
+        $this->db->query("CREATE TABLE `" . DB_PREFIX . "category_discount` (
+                `category_discount_id` int(11) NOT NULL AUTO_INCREMENT,
+                `category_id` int(11) NOT NULL,
+                `priority` int(5) NOT NULL DEFAULT '1',
+                `quantity` int(4) NOT NULL DEFAULT '0',
+                `percent` decimal(15,4) NOT NULL DEFAULT '0.0000',
+                `date_start` date NOT NULL DEFAULT '0000-00-00',
+                `date_end` date NOT NULL DEFAULT '0000-00-00',
+                PRIMARY KEY (`category_discount_id`),
+                KEY `category_id` (`category_id`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;"
+        );
+    }
+
 	public function addCategory($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "category SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), date_added = NOW()");
 
@@ -54,6 +71,13 @@ class ModelCatalogCategory extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "category_to_layout SET category_id = '" . (int)$category_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
 			}
 		}
+
+        // Category Discount
+        if (isset($data['category_discount'])) {
+            foreach ($data['category_discount'] as $category_discount) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
+            }
+        }
 
 		$this->cache->delete('category');
 
@@ -161,6 +185,15 @@ class ModelCatalogCategory extends Model {
 			}
 		}
 
+        // Category Discount
+        $this->db->query("DELETE FROM " . DB_PREFIX . "category_discount WHERE category_id = '" . (int)$category_id . "'");
+
+        if (isset($data['category_discount'])) {
+            foreach ($data['category_discount'] as $category_discount) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
+            }
+        }
+
 		$this->cache->delete('category');
 	}
 
@@ -181,6 +214,9 @@ class ModelCatalogCategory extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_category WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "seo_url WHERE query = 'category_id=" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "coupon_category WHERE category_id = '" . (int)$category_id . "'");
+
+        // Category Discount
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_discount WHERE category_id = '" . (int)$category_id . "'");
 
 		$this->cache->delete('category');
 	}
@@ -329,6 +365,13 @@ class ModelCatalogCategory extends Model {
 
 		return $category_layout_data;
 	}
+
+    // Category Discount
+    public function getCategoryDiscount($category_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_discount WHERE category_id = '" . (int)$category_id . "' ORDER BY quantity, priority, percent");
+
+        return $query->rows;
+    }
 
 	public function getTotalCategories() {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category");

@@ -9,6 +9,9 @@ class ControllerCatalogCategory extends Controller {
 
 		$this->load->model('catalog/category');
 
+        // Category Discount
+        $this->model_catalog_category->setupCategoryDiscount();
+
 		$this->getList();
 	}
 
@@ -496,6 +499,26 @@ class ControllerCatalogCategory extends Controller {
 		} else {
 			$data['category_layout'] = array();
 		}
+
+        if (isset($this->request->post['category_discount'])) {
+            $category_discounts = $this->request->post['category_discount'];
+        } elseif (isset($this->request->get['category_id'])) {
+            $category_discounts = $this->model_catalog_category->getCategoryDiscount($this->request->get['category_id']);
+        } else {
+            $category_discounts = array();
+        }
+
+        $data['category_discounts'] = array();
+
+        foreach ($category_discounts as $category_discount) {
+            $data['category_discounts'][] = array(
+                'quantity'          => $category_discount['quantity'],
+                'priority'          => $category_discount['priority'],
+                'percent'             => $category_discount['percent'],
+                'date_start'        => ($category_discount['date_start'] != '0000-00-00') ? $category_discount['date_start'] : '',
+                'date_end'          => ($category_discount['date_end'] != '0000-00-00') ? $category_discount['date_end'] : ''
+            );
+        }
 
 		$this->load->model('design/layout');
 

@@ -1,2 +1,5 @@
 image/cache
 system/storage/cache
+system/storage/session
+config.php
+.idea

@@ -15,6 +15,13 @@ $_['column_name']            = 'Category Name';
 $_['column_sort_order']      = 'Sort Order';
 $_['column_action']          = 'Action';
 
+// Category Discount
+$_['entry_date_start']       = 'Date Start';
+$_['entry_date_end']         = 'Date End';
+$_['entry_priority']         = 'Priority';
+$_['entry_quantity']         = 'Quantity';
+$_['entry_percent']          = 'Percentage';
+
 // Entry
 $_['entry_name']             = 'Category Name';
 $_['entry_description']      = 'Description';
