@@ -239,6 +239,7 @@
                 <table id="discount" class="table table-striped table-bordered table-hover">
                   <thead>
                   <tr>
+                    <td class="text-left">{{ entry_customer_group }}</td>
                     <td class="text-right">{{ entry_quantity }}</td>
                     <td class="text-right">{{ entry_priority }}</td>
                     <td class="text-right">{{ entry_percent }}</td>
@@ -252,6 +253,15 @@
                   {% set discount_row = 0 %}
                   {% for category_discount in category_discounts %}
                     <tr id="discount-row{{ discount_row }}">
+                      <td class="text-left"><select name="category_discount[{{ discount_row }}][customer_group_id]" class="form-control">
+                          {% for customer_group in customer_groups %}
+                            {% if customer_group.customer_group_id == category_discount.customer_group_id %}
+                              <option value="{{ customer_group.customer_group_id }}" selected="selected">{{ customer_group.name }}</option>
+                            {% else %}
+                              <option value="{{ customer_group.customer_group_id }}">{{ customer_group.name }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        </select></td>
                       <td class="text-right"><input type="text" name="category_discount[{{ discount_row }}][quantity]" value="{{ category_discount.quantity }}" placeholder="{{ entry_quantity }}" class="form-control" /></td>
                       <td class="text-right"><input type="text" name="category_discount[{{ discount_row }}][priority]" value="{{ category_discount.priority }}" placeholder="{{ entry_priority }}" class="form-control" /></td>
                       <td class="text-right"><input type="text" name="category_discount[{{ discount_row }}][percent]" value="{{ category_discount.percent }}" placeholder="{{ entry_percent }}" class="form-control" /></td>
@@ -273,7 +283,7 @@
 
                   <tfoot>
                   <tr>
-                    <td colspan="5"></td>
+                    <td colspan="6"></td>
                     <td class="text-left"><button type="button" onclick="addDiscount();" data-toggle="tooltip" title="{{ button_discount_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                   </tr>
                   </tfoot>
@@ -355,11 +365,17 @@ $('#category-filter').delegate('.fa-minus-circle', 'click', function() {
   <script type="text/javascript"><!--
 $('#language a:first').tab('show');
 //--></script>
+
+<!-- Category Discount -->
 <script type="text/javascript"><!--
 var discount_row = {{ discount_row }};
-
 function addDiscount() {
     html  = '<tr id="discount-row' + discount_row + '">';
+    html += '  <td class="text-left"><select name="category_discount[' + discount_row + '][customer_group_id]" class="form-control">';
+    {% for customer_group in customer_groups %}
+    html += '    <option value="{{ customer_group.customer_group_id }}">{{ customer_group.name|escape('js') }}</option>';
+    {% endfor %}
+    html += '  </select></td>';
     html += '  <td class="text-right"><input type="text" name="category_discount[' + discount_row + '][quantity]" value="" placeholder="{{ entry_quantity }}" class="form-control" /></td>';
     html += '  <td class="text-right"><input type="text" name="category_discount[' + discount_row + '][priority]" value="" placeholder="{{ entry_priority }}" class="form-control" /></td>';
     html += '  <td class="text-right"><input type="text" name="category_discount[' + discount_row + '][percent]" value="" placeholder="{{ entry_percent }}" class="form-control" /></td>';

@@ -500,6 +500,11 @@ class ControllerCatalogCategory extends Controller {
 			$data['category_layout'] = array();
 		}
 
+        // Category Discount
+        $this->load->model('customer/customer_group');
+
+        $data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
+
         if (isset($this->request->post['category_discount'])) {
             $category_discounts = $this->request->post['category_discount'];
         } elseif (isset($this->request->get['category_id'])) {
@@ -512,6 +517,7 @@ class ControllerCatalogCategory extends Controller {
 
         foreach ($category_discounts as $category_discount) {
             $data['category_discounts'][] = array(
+                'customer_group_id' => $category_discount['customer_group_id'],
                 'quantity'          => $category_discount['quantity'],
                 'priority'          => $category_discount['priority'],
                 'percent'             => $category_discount['percent'],

@@ -1,5 +1,6 @@
 image/cache
 system/storage/cache
 system/storage/session
+system/storage/logs/error.log
 config.php
 .idea

@@ -21,6 +21,7 @@ $_['entry_date_end']         = 'Date End';
 $_['entry_priority']         = 'Priority';
 $_['entry_quantity']         = 'Quantity';
 $_['entry_percent']          = 'Percentage';
+$_['entry_customer_group']   = 'Customer Group';
 
 // Entry
 $_['entry_name']             = 'Category Name';

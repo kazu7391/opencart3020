@@ -2,10 +2,10 @@
 class ModelCatalogCategory extends Model {
     // Category Discount
     public function setupCategoryDiscount() {
-        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "category_discount`;");
-        $this->db->query("CREATE TABLE `" . DB_PREFIX . "category_discount` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "category_discount` (
                 `category_discount_id` int(11) NOT NULL AUTO_INCREMENT,
                 `category_id` int(11) NOT NULL,
+                `customer_group_id` int(11) NOT NULL,
                 `priority` int(5) NOT NULL DEFAULT '1',
                 `quantity` int(4) NOT NULL DEFAULT '0',
                 `percent` decimal(15,4) NOT NULL DEFAULT '0.0000',
@@ -75,7 +75,7 @@ class ModelCatalogCategory extends Model {
         // Category Discount
         if (isset($data['category_discount'])) {
             foreach ($data['category_discount'] as $category_discount) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
             }
         }
 
@@ -190,7 +190,7 @@ class ModelCatalogCategory extends Model {
 
         if (isset($data['category_discount'])) {
             foreach ($data['category_discount'] as $category_discount) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "category_discount SET category_id = '" . (int)$category_id . "', customer_group_id = '" . (int)$category_discount['customer_group_id'] . "', quantity = '" . (int)$category_discount['quantity'] . "', priority = '" . (int)$category_discount['priority'] . "', percent = '" . (float)$category_discount['percent'] . "', date_start = '" . $this->db->escape($category_discount['date_start']) . "', date_end = '" . $this->db->escape($category_discount['date_end']) . "'");
             }
         }
 
