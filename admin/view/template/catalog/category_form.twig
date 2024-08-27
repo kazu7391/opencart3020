@@ -235,7 +235,22 @@
             </div>
             <!-- Category Discount -->
             <div class="tab-pane" id="tab-discount">
-              <div class="table-responsive">
+              <div div class="form-group">
+                <label class="col-sm-2 control-label" for="input-special_status">{{ entry_special }}</label>
+                <div class="col-sm-4">
+                  <select name="special_status" id="input-special_status" class="form-control">
+                    {% if special_status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-responsive discount-block">
                 <table id="discount" class="table table-striped table-bordered table-hover">
                   <thead>
                   <tr>
@@ -368,6 +383,23 @@ $('#language a:first').tab('show');
 
 <!-- Category Discount -->
 <script type="text/javascript"><!--
+let special_selection = $('#input-special_status');
+let special_status = parseInt(special_selection.val());
+if(special_status === 1) {
+  $('.discount-block').show();
+} else {
+  $('.discount-block').hide();
+}
+special_selection.change(function() {
+  let status = parseInt($(this).val());
+  if(status === 1) {
+    $('.discount-block').show();
+  } else {
+    $('.discount-block').hide();
+  }
+});
+
+
 var discount_row = {{ discount_row }};
 function addDiscount() {
     html  = '<tr id="discount-row' + discount_row + '">';

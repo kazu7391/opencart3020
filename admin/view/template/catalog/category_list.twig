@@ -57,7 +57,16 @@
                     {% else %}
                     <input type="checkbox" name="selected[]" value="{{ category.category_id }}" />
                     {% endif %}</td>
-                  <td class="text-left">{{ category.name }}</td>
+                  <!-- Category Discount -->  
+                  {# <td class="text-left">{{ category.name }}</td> #}
+                  <td class="text-left">
+                    <div class="c-name">
+                      <span>{{ category.name }}</span>
+                      {% if category.special_status == 1 %}
+                      <span class="special-label">{{ entry_special }}</span>
+                      {% endif %}
+                    </div>
+                  </td>
                   <td class="text-right">{{ category.sort_order }}</td>
                   <td class="text-right"><a href="{{ category.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
@@ -79,4 +88,18 @@
     </div>
   </div>
 </div>
+<style>
+.c-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.c-name .special-label {
+  padding: 5px 10px;
+  background: #00FF00;
+  color: #0c320c;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+</style>
 {{ footer }}

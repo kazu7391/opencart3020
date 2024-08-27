@@ -212,6 +212,7 @@ class ControllerCatalogCategory extends Controller {
 				'category_id' => $result['category_id'],
 				'name'        => $result['name'],
 				'sort_order'  => $result['sort_order'],
+				'special_status' => $result['special_status'], // Category Discount
 				'edit'        => $this->url->link('catalog/category/edit', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url, true),
 				'delete'      => $this->url->link('catalog/category/delete', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url, true)
 			);
@@ -501,6 +502,14 @@ class ControllerCatalogCategory extends Controller {
 		}
 
         // Category Discount
+		if (isset($this->request->post['special_status'])) {
+			$data['special_status'] = $this->request->post['special_status'];
+		} elseif (!empty($category_info) && !empty($category_info['special_status'])) {
+			$data['special_status'] = $category_info['special_status'];
+		} else {
+			$data['special_status'] = false;
+		}
+
         $this->load->model('customer/customer_group');
 
         $data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();

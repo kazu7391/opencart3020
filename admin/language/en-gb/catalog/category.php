@@ -22,6 +22,7 @@ $_['entry_priority']         = 'Priority';
 $_['entry_quantity']         = 'Quantity';
 $_['entry_percent']          = 'Percentage';
 $_['entry_customer_group']   = 'Customer Group';
+$_['entry_special']          = 'Special';
 
 // Entry
 $_['entry_name']             = 'Category Name';
