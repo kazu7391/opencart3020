@@ -7,10 +7,42 @@ class ModelExtensionTotalCategoryDiscount extends Model {
 
         $categoryDiscount = 0;
         $pDiscountCount = 0;
+        $pDiscounts = [];
         foreach ($this->cart->getProducts() as $product) {
             $specialStatus = $this->model_catalog_category->checkSpecialCategoryByProduct($product['product_id']);
             if($specialStatus) {
                 $pDiscountCount += (int) $product['quantity'];
+                $pDiscounts[] = $product['product_id'];
+            }
+        }
+
+        if($pDiscountCount > 0) {
+            $discounts = $this->model_catalog_category->getCategoryDiscountFromSpecial();
+
+            $discounts = array_intersect_key(
+                $discounts,
+                array_unique(array_column($discounts, 'quantity'))
+            );
+
+            $discounts = array_filter($discounts, function ($discount) use ($pDiscountCount) {
+                $discountQty = (int) $discount['quantity'];
+                return $pDiscountCount >= $discountQty;
+            });
+
+            $discountPercent = 0;
+            foreach($discounts as $discount) {
+                $discountQty = (int) $discount['quantity'];
+
+                if($pDiscountCount >= $discountQty) {
+                    $discountPercent = (float) $discount['percent'];
+                    if($discountQty == $pDiscountCount) break;
+                }
+            }
+
+            foreach ($this->cart->getProducts() as $product) {
+                if(in_array($product['product_id'], $pDiscounts)) {
+                    $categoryDiscount += (float) ($product['total'] * $discountPercent / 100);
+                }
             }
         }
 

@@ -78,8 +78,8 @@ class ModelCatalogCategory extends Model {
 		}
 	}
 
-    public function getCategoryDiscountFromSpecial($category_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_discount cd INNER JOIN " . DB_PREFIX . "category c ON (cd.category_id = c.category_id) WHERE c.special_status = '1', cd.category_id = '" . (int) $category_id . "' AND cd.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND cd.quantity > 0 AND ((cd.date_start = '0000-00-00' OR cd.date_start < NOW()) AND (cd.date_end = '0000-00-00' OR cd.date_end > NOW())) ORDER BY cd.quantity ASC, cd.priority ASC, cd.percent ASC");
+    public function getCategoryDiscountFromSpecial() {
+        $query = $this->db->query("SELECT cd.* FROM " . DB_PREFIX . "category_discount cd INNER JOIN " . DB_PREFIX . "category c ON (cd.category_id = c.category_id) WHERE c.special_status = '1' AND cd.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND cd.quantity > 0 AND ((cd.date_start = '0000-00-00' OR cd.date_start < NOW()) AND (cd.date_end = '0000-00-00' OR cd.date_end > NOW())) ORDER BY cd.quantity ASC, cd.priority ASC, cd.percent ASC");
 
         return $query->rows;
     }

@@ -5,7 +5,10 @@ class ControllerExtensionTotalCategoryDiscount extends Controller {
 	public function install() {
 		$this->load->model('setting/setting');
 
-		$this->model_setting_setting->editSetting('total_total', ['total_total_sort_order' => 99]);
+		$this->model_setting_setting->editSetting('total_total', [
+            'total_total_status' => 1,
+            'total_total_sort_order' => 99
+        ]);
 
 		$this->model_setting_setting->editSetting('total_category_discount', [
 			'total_category_discount_status' => 1,
