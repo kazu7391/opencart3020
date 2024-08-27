@@ -6,56 +6,11 @@ class ModelExtensionTotalCategoryDiscount extends Model {
         $this->load->model('catalog/product');
 
         $categoryDiscount = 0;
-        $categoryDiscounts = [];
-        $discountProducts = [];
-        $pCounts = [];
-        $pCartQty = [];
+        $pDiscountCount = 0;
         foreach ($this->cart->getProducts() as $product) {
-            $productCategoriesDiscounts = $this->model_catalog_category->getCategoryDiscount($product['product_id']);
-
-            if(!empty($productCategoriesDiscounts)) {
-                $pCateDiscounts = [];
-                foreach($productCategoriesDiscounts as $productCategoryDiscount) {
-                    $pCateDiscounts[$productCategoryDiscount['category_id']][] = [
-                        'quantity' => $productCategoryDiscount['quantity'],
-                        'percent' => $productCategoryDiscount['percent']
-                    ];
-
-                }
-
-                $categoryDiscounts[$product['product_id']] = $pCateDiscounts;
-            }
-
-            $pCartQty[$product['product_id']] = $product['quantity'];
-        }
-
-        foreach($categoryDiscounts as $productId => $categoryDiscountData) {
-            foreach($categoryDiscountData as $categoryId => $productDiscounts) {
-                $pCounts[$categoryId][] = $productId;
-            }
-        }
-
-        $pCounts = array_map(function($ids) use ($pCartQty) {
-            $c = 0;
-            foreach ($ids as $pId) {
-                $c += (int) $pCartQty[$pId];
-            }
-            return $c;
-        }, $pCounts);
-
-        foreach($categoryDiscounts as $productId => $categoryDiscountData) {
-            foreach($categoryDiscountData as $categoryId => $cateDiscounts) {
-                $total_count = $pCounts[$categoryId];
-                foreach($cateDiscounts as $discountData) {
-                    if($total_count == $discountData['quantity']) {
-                        $discountProducts[$productId] = (float) $discountData['percent'];
-                        break;
-                    }
-
-                    if($total_count > $discountData['quantity']) {
-                        $discountProducts[$productId] = (float) $discountData['percent'];
-                    }
-                }
+            $specialStatus = $this->model_catalog_category->checkSpecialCategoryByProduct($product['product_id']);
+            if($specialStatus) {
+                $pDiscountCount += (int) $product['quantity'];
             }
         }
 

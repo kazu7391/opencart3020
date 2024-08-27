@@ -68,14 +68,18 @@ class ModelCatalogCategory extends Model {
 	}
 
     // Category Discount
-    public function getCategoriesByProductId($product_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_category pc WHERE product_id = '" . (int) $product_id . "'");
+	public function checkSpecialCategoryByProduct($product_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_category pc INNER JOIN " . DB_PREFIX . "category c ON (pc.category_id = c.category_id) WHERE pc.product_id = '" . (int) $product_id . "' AND c.special_status = '1'");
 
-        return $query->rows;
-    }
+		if ($query->num_rows) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    public function getCategoryDiscount($product_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_category pc INNER JOIN " . DB_PREFIX . "category_discount cd ON (pc.category_id = cd.category_id) WHERE product_id = '" . (int) $product_id . "' AND cd.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND cd.quantity > 0 AND ((cd.date_start = '0000-00-00' OR cd.date_start < NOW()) AND (cd.date_end = '0000-00-00' OR cd.date_end > NOW())) ORDER BY cd.quantity ASC, cd.priority ASC, cd.percent ASC");
+    public function getCategoryDiscountFromSpecial($category_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_discount cd INNER JOIN " . DB_PREFIX . "category c ON (cd.category_id = c.category_id) WHERE c.special_status = '1', cd.category_id = '" . (int) $category_id . "' AND cd.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND cd.quantity > 0 AND ((cd.date_start = '0000-00-00' OR cd.date_start < NOW()) AND (cd.date_end = '0000-00-00' OR cd.date_end > NOW())) ORDER BY cd.quantity ASC, cd.priority ASC, cd.percent ASC");
 
         return $query->rows;
     }
