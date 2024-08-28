@@ -33,6 +33,12 @@
         {% if weight %}
         &nbsp;({{ weight }})
         {% endif %} </h1>
+      <!-- Category Discount -->
+      {% if category_discounts_text %}
+      <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ category_discounts_text }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      {% endif %}
       <form action="{{ action }}" method="post" enctype="multipart/form-data">
         <div class="table-responsive">
           <table class="table table-bordered">

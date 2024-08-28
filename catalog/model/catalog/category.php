@@ -78,6 +78,12 @@ class ModelCatalogCategory extends Model {
 		}
 	}
 
+    public function getSpecialCategory() {
+        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.special_status = '1' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
+
+        return $query->row;
+    }
+
     public function getCategoryDiscountFromSpecial() {
         $query = $this->db->query("SELECT cd.* FROM " . DB_PREFIX . "category_discount cd INNER JOIN " . DB_PREFIX . "category c ON (cd.category_id = c.category_id) WHERE c.special_status = '1' AND cd.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND cd.quantity > 0 AND ((cd.date_start = '0000-00-00' OR cd.date_start < NOW()) AND (cd.date_end = '0000-00-00' OR cd.date_end > NOW())) ORDER BY cd.quantity ASC, cd.priority ASC, cd.percent ASC");
 

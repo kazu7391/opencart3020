@@ -57,6 +57,41 @@ class ControllerCheckoutCart extends Controller {
 
 			$products = $this->cart->getProducts();
 
+            // Category Discount
+            $this->load->language('extension/total/category_discount');
+            $this->load->model('catalog/category');
+            $isCategoryDiscount = false;
+            $pDiscountCount = 0;
+            foreach ($products as $product) {
+                $specialStatus = $this->model_catalog_category->checkSpecialCategoryByProduct($product['product_id']);
+                if ($specialStatus) {
+                    $pDiscountCount += (int) $product['quantity'];
+                    $isCategoryDiscount = true;
+                }
+            }
+
+            $data['category_discounts'] = [];
+            $category_discounts_text = [];
+            $pCateDiscountText = '';
+            if ($isCategoryDiscount) {
+                $specialCategory = $this->model_catalog_category->getSpecialCategory();
+                $category_discounts = $this->model_catalog_category->getCategoryDiscountFromSpecial();
+                foreach ($category_discounts as $category_discount) {
+                    $dQtyText = $category_discount['quantity'] . ' ' . ((1 < (int) $category_discount['quantity']) ? 'items' : 'item');
+                    $category_discounts_text[$category_discount['quantity']] = sprintf($this->language->get('text_category_discount_offer'), $dQtyText, $specialCategory['name'], (float) $category_discount['percent'] . '%');
+                }
+
+                if (!empty($category_discounts_text)) {
+                    foreach ($category_discounts_text as $quantity => $text) {
+                        if($quantity > $pDiscountCount) {
+                            $pCateDiscountText = $text;
+                            break;
+                        }
+                    }
+                }
+            }
+            $data['category_discounts_text'] = $pCateDiscountText;
+
 			foreach ($products as $product) {
 				$product_total = 0;
 
